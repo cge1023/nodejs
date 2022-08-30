@@ -8,7 +8,7 @@ app.set("view engine", "ejs");
 app.use("/static", express.static("static"));
 
 app.get("/", (req, res) => {
-  res.render("main");
+  res.render("login");
 });
 
 app.get("/get", (req, res) => {
@@ -49,10 +49,14 @@ app.get("/get/axios", (req, res) => {
 app.post("/post/axios", (req, res) => {
   console.log(req.body);
   var data = {
-    name: req.body.name,
-    gender: req.body.gender,
+    id: "cge1023",
+    pw: "1023",
   };
-  res.send(data);
+  if (req.body.id == data.id && req.body.password == data.pw) {
+    res.send("로그인 성공");
+  } else {
+    res.send("로그인 실패");
+  }
 });
 
 //post 요청이 /post라는 주소로 들어왔을 때 안의 함수를 실행

@@ -39,18 +39,24 @@
                 <option name="birthDay" value="<%=k%>"><%=k%>일</option>
                 <%}%>
         </select><br>
-        관심사 <input type="checkbox" name="hobby" value="trip">여행
-        <input type="checkbox" name="hobby" value="fashion">패션
-        <input type="checkbox" name="hobby" value="food">음식<br>
+        관심사 <input type="checkbox" name="interest" value="trip">여행
+        <input type="checkbox" name="interest" value="fashion">패션
+        <input type="checkbox" name="interest" value="food">음식<br>
         <button type="button" onclick="dynamicForm();">회원가입</button>
     </form>
     <div></div>
     <script>
         function dynamicForm() {
             var form = document.querySelector("form");
+            var interest = "";
+            $("input[name=interest]:checked").each((index, object) => {
+                interest += $(object).val();
+                if(index != $("input[name=interest]:checked").length - 1) interest += ",";
+            })
             var data1 = {
                 name: form.name.value,
-                gender: form.gender.value,   
+                gender: form.gender.value,
+                interest: form.interest.   
             }
             axios({
                 url: "get/axios",
