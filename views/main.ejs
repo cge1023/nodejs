@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #info_birth {
+            display: flex;
+        }
+        #info_birth select {
+            margin-left: 7px;
+        }
+        #info_birth select:first-child {
+            margin-left: 0px;
+        }
+    </style>
+</head>
+<body>
+    <form method="post" action="/post">
+        이름 <input type="text" name="name" required> <br>
+        성별 <input type="radio" name="gender" value="남" required> 남자
+        <input type="radio" name="gender" value="여" required> 여자 <br>
+        생년월일 <select name="birthYear" id="birth-year" required>
+                    <% for(let i = 1940; i <= 2022; i++){%>
+                        <option value="<%=i%>"><%=i%>년</option>
+                    <%}%>
+                </select>
+        <select name="birthMonth" id="birth-month">
+            <% for(let j = 1; j <= 12; j ++){%>
+                <option value="<%=j%>"><%=j%>월</option>
+            <%}%>
+        </select>
+        <select name="birthDay" id="birth-day">
+            <% for(let k = 1; k <= 31; k++){%>
+                <option value="<%=k%>"><%=k%>일</option>
+            <%}%>
+        </select><br>
+        관심사 <input type="checkbox" name="hobby" value="trip">여행
+        <input type="checkbox" name="hobby" value="fashion">패션
+        <input type="checkbox" name="hobby" value="food">음식<br>
+        
+        <button type="submit">회원가입</button>
+    </form>
+</body>
+</html>
