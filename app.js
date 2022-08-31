@@ -7,8 +7,9 @@ const upload = multer({
       done(null, "uploads/");
     },
     filename(req, file, done) {
+      const id = req.body.id;
       const ext = path.extname(file.originalname);
-      done(null, path.basename(file.originalname, ext) + Date.now() + ext);
+      done(null, path.basename(file.originalname, ext) + id + ext);
     },
   }),
   limits: { fileSize: 5 * 1024 * 1024 },
@@ -20,9 +21,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.set("view engine", "ejs");
 app.use("/static", express.static("static"));
+app.use("/uploads", express.static("uploads"));
 
 app.get("/", (req, res) => {
-  res.render("fileUpload");
+  res.render("login");
 });
 
 app.get("/get", (req, res) => {
@@ -74,9 +76,9 @@ app.post("/post/axios", (req, res) => {
 });
 
 app.post("/upload", upload.single("userfile"), (req, res) => {
-  console.log(req.body);
+  console.log(req.body.id);
   console.log(req.file);
-  res.send("업로드 성공");
+  res.send(`<img src="/uploads/${req.file.filename}">`);
 });
 
 //post 요청이 /post라는 주소로 들어왔을 때 안의 함수를 실행
