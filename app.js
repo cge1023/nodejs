@@ -1,4 +1,18 @@
 const express = require("express");
+const multer = require("multer");
+const path = require("path");
+const upload = multer({
+  storage: multer.diskStorage({
+    destination(req, file, done) {
+      done(null, "uploads/");
+    },
+    filename(req, file, done) {
+      const ext = path.extname(file.originalname);
+      done(null, path.basename(file.originalname, ext) + Date.now() + ext);
+    },
+  }),
+  limits: { fileSize: 5 * 1024 * 1024 },
+});
 const app = express();
 const port = 8000;
 
@@ -8,7 +22,7 @@ app.set("view engine", "ejs");
 app.use("/static", express.static("static"));
 
 app.get("/", (req, res) => {
-  res.render("login");
+  res.render("fileUpload");
 });
 
 app.get("/get", (req, res) => {
@@ -57,6 +71,12 @@ app.post("/post/axios", (req, res) => {
   } else {
     res.send("로그인 실패");
   }
+});
+
+app.post("/upload", upload.single("userfile"), (req, res) => {
+  console.log(req.body);
+  console.log(req.file);
+  res.send("업로드 성공");
 });
 
 //post 요청이 /post라는 주소로 들어왔을 때 안의 함수를 실행
