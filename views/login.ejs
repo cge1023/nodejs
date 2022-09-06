@@ -14,7 +14,7 @@
     <form>
         <input name="id" type="text" placeholder="아이디를 입력해주세요"><br>
         <input name="pw" type="text" placeholder="비밀번호를 입력해주세요"><br>
-        <div class="div" style="color: red"></div>
+        <div class="div"></div>
         <button type="button" class="btn" onclick="dynamicForm()">로그인</button>
     </form>
     
@@ -27,7 +27,7 @@
                 password: form.pw.value,   
             }
             axios ({
-                url:"/post/axios",
+                url:"/login2",
                 method: "post",
                 data: data
             }).then((response) => {
