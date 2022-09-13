@@ -1,5 +1,6 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
+const session = require("express-session");
 const multer = require("multer");
 const path = require("path");
 const { parentPort } = require("worker_threads");
@@ -25,10 +26,22 @@ app.set("view engine", "ejs");
 app.use("/static", express.static("static"));
 app.use("/uploads", express.static("uploads"));
 app.use(cookieParser());
+app.use(
+  session({
+    secret: "1234", //암호화할 때 쓰일 문자열
+    resave: false,
+    saveUninitialized: true,
+    // secure: true,
+    cookie: {
+      maxAge: 60000,
+      httpOnly: true,
+    },
+  })
+);
 
 app.get("/", (req, res) => {
   console.log(req.cookies.key3);
-  res.render("index", { cookie: req.cookies.key3 });
+  res.render("sessionLogin");
 });
 
 app.post("/setCookie", (req, res) => {
@@ -37,6 +50,33 @@ app.post("/setCookie", (req, res) => {
     httpOnly: true,
   });
   res.send(true);
+});
+
+var info = { id: "cge1023", pw: "1023" };
+
+app.post("/sessionLogin", (req, res) => {
+  console.log(req.session);
+  if (req.body.id == info.id && req.body.password == info.pw) {
+    req.session.user = info.id;
+    res.send(true);
+  } else {
+    res.send("로그인 실패");
+    console.log("로그인 실패");
+  }
+});
+
+app.get("/profile", (req, res) => {
+  if (req.session.user) {
+    res.render("profile", { user: req.session.user });
+  } else {
+    res.redirect("/sessionLogin");
+  }
+});
+
+app.get("/sessionLogout", (req, res) => {
+  req.session.destroy(function () {
+    res.send(true);
+  });
 });
 
 app.get("/get", (req, res) => {
