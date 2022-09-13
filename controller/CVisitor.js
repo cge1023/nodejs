@@ -1,10 +1,10 @@
 const Visitor = require("../model/Visitor");
 
-exports.visitor = (req, res) => {
-  Visitor.get_visitor(function (result) {
-    console.log(result);
-    res.render("visitor", { data: result });
-  });
+exports.visitor = async (req, res) => {
+  var result = await Visitor.get_visitor();
+
+  console.log(result);
+  res.render("visitor", { data: result });
 };
 
 exports.post_visitor = (req, res) => {

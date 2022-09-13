@@ -7,13 +7,15 @@ const cnn = mysql.createConnection({
   database: "kdt_db",
 });
 
-exports.get_visitor = (cb) => {
-  var sql = "SELECT * FROM visitor";
-  cnn.query(sql, (err, rows) => {
-    if (err) throw err;
-    console.log("visitors : ", rows);
+exports.get_visitor = () => {
+  return new Promise(function (resolve, reject) {
+    var sql = "SELECT * FROM visitor";
+    cnn.query(sql, (err, rows) => {
+      if (err) throw err;
+      console.log("visitors : ", rows);
 
-    cb(rows);
+      resolve(rows);
+    });
   });
 };
 

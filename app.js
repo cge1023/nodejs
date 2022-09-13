@@ -1,6 +1,8 @@
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const multer = require("multer");
 const path = require("path");
+const { parentPort } = require("worker_threads");
 const upload = multer({
   storage: multer.diskStorage({
     destination(req, file, done) {
@@ -22,9 +24,19 @@ app.use(express.json());
 app.set("view engine", "ejs");
 app.use("/static", express.static("static"));
 app.use("/uploads", express.static("uploads"));
+app.use(cookieParser());
 
 app.get("/", (req, res) => {
-  res.render("login");
+  console.log(req.cookies.key3);
+  res.render("index", { cookie: req.cookies.key3 });
+});
+
+app.post("/setCookie", (req, res) => {
+  res.cookie("key3", "value3", {
+    maxAge: 100000,
+    httpOnly: true,
+  });
+  res.send(true);
 });
 
 app.get("/get", (req, res) => {
