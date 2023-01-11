@@ -41,9 +41,13 @@
           method: "DELETE",
           url: "/delete",
           data: { id: e.target.dataset.id },
-        }).done((result) => {
-          $(this).parent("li").fadeOut();
-        });
+        })
+          .done((result) => {
+            $(this).parent("li").fadeOut();
+          })
+          .fail((xhr, textStatus, errorThrown) => {
+            console.log(xhr, textStatus, errorThrown);
+          });
       });
     </script>
     <script

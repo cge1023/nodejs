@@ -57,7 +57,7 @@ app.delete("/delete", (req, res) => {
   db.collection("post").deleteOne(
     { _id: parseInt(req.body.id) },
     (err, result) => {
-      res.status(200).send;
+      res.status(200).send("성공");
     }
   );
 });
