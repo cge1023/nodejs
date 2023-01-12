@@ -20,19 +20,23 @@
   </head>
   <body>
     <%-include('navbar.ejs')%>
-    <h4 class="ml-2 my-3">할일 리스트</h4>
-    <ul class="list-group">
-      <% for (let i = 0; i < posts.length; i++) { %>
-      <li class="list-group-item">
-        <p>할일 번호 : <%= posts[i]._id %></p>
-        <h4>할일 : <%= posts[i].title %></h4>
-        <p>마감기간 : <%= posts[i].date %></p>
-        <button class="btn btn-danger delete" data-id="<%= posts[i]._id %>">
-          삭제
-        </button>
-      </li>
-      <% } %>
-    </ul>
+    <h4 class="ml-2 my-3 text-center">할일 리스트</h4>
+    <div class="container">
+      <ul class="list-group">
+        <% for (let i = 0; i < posts.length; i++) { %>
+        <li class="list-group-item">
+          <p>할일 번호 : <%= posts[i]._id %></p>
+          <h4 class="detail" data-id="<%= posts[i]._id %>">
+            할일 : <%= posts[i].title %>
+          </h4>
+          <p>마감기간 : <%= posts[i].date %></p>
+          <button class="btn btn-danger delete" data-id="<%= posts[i]._id %>">
+            삭제
+          </button>
+        </li>
+        <% } %>
+      </ul>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
     <script>
@@ -48,6 +52,9 @@
           .fail((xhr, textStatus, errorThrown) => {
             console.log(xhr, textStatus, errorThrown);
           });
+      });
+      $(".detail").click(function (e) {
+        window.location.href = `/detail/${e.target.dataset.id}`;
       });
     </script>
     <script
