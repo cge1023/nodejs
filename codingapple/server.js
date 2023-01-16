@@ -54,11 +54,25 @@ app.get("/list", (req, res) => {
 });
 
 app.get("/search", (req, res) => {
-  console.log(req.query.value);
+  let searchCondition = [
+    {
+      $search: {
+        index: "titleSearch",
+        text: {
+          query: req.query.value,
+          path: "title", // 제목 날짜 둘다 찾고 싶으며 ['제목', '날짜']
+        },
+      },
+    },
+    { $sort: { _id: 1 } },
+    {
+      $project: { title: 1, _id: 1, date: 1, score: { $meta: "searchScore" } },
+    },
+  ];
   db.collection("post")
-    .find({ title: req.query.value })
+    .aggregate(searchCondition)
     .toArray((err, result) => {
-      console.log("query : ", result);
+      console.log(result);
       res.render("search", { posts: result });
     });
 });
