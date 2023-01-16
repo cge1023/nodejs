@@ -20,14 +20,8 @@
   </head>
   <body>
     <%-include('navbar.ejs')%>
-    <h4 class="ml-2 my-3 text-center">할일 리스트</h4>
+    <h4 class="ml-2 my-3 text-center">검색 결과</h4>
 
-    <div class="container input-group mb-2">
-      <input class="form-control" id="search-input" />
-      <button id="search" class="input-group-append btn btn-danger">
-        검색
-      </button>
-    </div>
     <div class="container">
       <ul class="list-group">
         <% for (let i = 0; i < posts.length; i++) { %>
@@ -46,28 +40,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
-    <script>
-      $(".delete").click(function (e) {
-        $.ajax({
-          method: "DELETE",
-          url: "/delete",
-          data: { id: e.target.dataset.id },
-        })
-          .done((result) => {
-            $(this).parent("li").fadeOut();
-          })
-          .fail((xhr, textStatus, errorThrown) => {
-            console.log(xhr, textStatus, errorThrown);
-          });
-      });
-      $(".detail").click(function (e) {
-        window.location.href = `/detail/${e.target.dataset.id}`;
-      });
-      $("#search").click(function () {
-        let enteredValue = $("#search-input").val();
-        window.location.replace(`/search?value=${enteredValue}`); // 현재 url 바꾸는 법 (GET 요청이랑 같음)
-      });
-    </script>
+    <script></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"

@@ -53,6 +53,16 @@ app.get("/list", (req, res) => {
     });
 });
 
+app.get("/search", (req, res) => {
+  console.log(req.query.value);
+  db.collection("post")
+    .find({ title: req.query.value })
+    .toArray((err, result) => {
+      console.log("query : ", result);
+      res.render("search", { posts: result });
+    });
+});
+
 app.delete("/delete", (req, res) => {
   db.collection("post").deleteOne(
     { _id: parseInt(req.body.id) },
